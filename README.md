@@ -43,6 +43,19 @@ The slides are **not** raw WSIs; we use precomputed UNI patch embeddings + patch
 - Metrics: **AUC** (primary), **Accuracy**, **F1** (at 0.5 threshold), and **normalized attention entropy** `H(a)`.
 - The headline comparison (ABMIL / CLAM-SB / BA-AMIL) and the ablation studies (entropy, gating, `k`, smoothness) are produced automatically and written to `RESULTS_BUNDLE.json` and the CSV/PNG files in `results/`.
 
+## Reproduce all results
+
+**Option A — Colab/Jupyter (recommended):** open `ba_amil_camelyon16.ipynb`, set the runtime to GPU, paste your Hugging Face token when prompted, set `CONFIG["FAST"] = False`, and choose **Run All**. This downloads the data, trains ABMIL / CLAM-SB / BA-AMIL, runs all ablations, and writes `RESULTS_BUNDLE.json` and every figure used in the paper.
+
+**Option B — headless:**
+```bash
+export HF_TOKEN=hf_xxx              # your Hugging Face read token
+jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=-1 ba_amil_camelyon16.ipynb
+```
+(Make sure `CONFIG["FAST"] = False` is set in the notebook for the full run.)
+
+Key flags inside the notebook: `CONFIG["FAST"]` (quick check vs. full run), `CONFIG["knn_k"]`, `CONFIG["lambda_ent"]`, `CONFIG["lambda_smooth"]`, `CONFIG["learned_gating"]`, and the seed lists used for the main comparison `{0,1,2}` and the ablations `{0}`.
+
 ## Files
 
 - `ba_amil_camelyon16.ipynb` — full pipeline: download, models, training, ablations, figures.
